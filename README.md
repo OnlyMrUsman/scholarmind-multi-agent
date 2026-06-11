@@ -77,7 +77,7 @@ The entire multi-agent app is captured in the Dify DSL export. To recreate it:
 
 ## Author
 
-Muhammad Usman Kazim — Yunnan University
+Muhammad Usman Kazim (BSAI) | Software and Artificial Intelligence Department | Yunnan University
 
 ## Acknowledgements
 

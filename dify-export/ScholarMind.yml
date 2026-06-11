@@ -1,0 +1,573 @@
+app:
+  description: 'Multi-agent academic research assistant: 5 cooperating agents produce
+    a cited literature review.'
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: ScholarMind
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.17@f7a5c1d222d17ee419b17a80d6e4923838fe93788dc724a3af73fbc6990b3a32
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: llm
+      id: 1781025797241-llm
+      source: '1781025797241'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: llm-source-1781029203358-target
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: '1781029203358'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1781029989717-source-1781030803670-target
+      source: '1781029989717'
+      sourceHandle: source
+      target: '1781030803670'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1781030803670-source-1781030899492-target
+      source: '1781030803670'
+      sourceHandle: source
+      target: '1781030899492'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1781030899492-source-answer-target
+      source: '1781030899492'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1781029203358-source-1781154503808-target
+      source: '1781029203358'
+      sourceHandle: source
+      target: '1781154503808'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1781154503808-source-1781029989717-target
+      source: '1781154503808'
+      sourceHandle: source
+      target: '1781029989717'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables: []
+      height: 73
+      id: '1781025797241'
+      position:
+        x: -884.7078399999998
+        y: -298.26239999999984
+      positionAbsolute:
+        x: -884.7078399999998
+        y: -298.26239999999984
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 44d4f74b-aa25-4e8e-8b5d-d065ff7b22e9
+          role: system
+          text: 'You are the Orchestrator agent in ScholarMind, a multi-agent academic
+            research assistant.
+
+
+            Analyze the user''s research question and prepare a clean plan for the
+            search agent.
+
+
+            Output a JSON object with exactly these fields:
+
+            - "search_query": a concise, keyword-focused query (3 to 8 words) optimized
+            for searching academic paper databases. Strip filler words; keep core
+            technical terms.
+
+            - "research_focus": one sentence describing what the literature review
+            should focus on.
+
+            - "subtopics": a list of 2 to 4 key subtopics the review should cover.
+
+
+            Rules:
+
+            - Output ONLY the raw JSON object. No markdown, no code fences, no explanation.
+
+            - Keep the search_query academic and specific.
+
+
+            User question: {{#sys.query#}}'
+        selected: false
+        title: 1. Orchestrator
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: llm
+      position:
+        x: -633.7071359999998
+        y: -136.50086400000004
+      positionAbsolute:
+        x: -633.7071359999998
+        y: -136.50086400000004
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1781030899492.text#}}'
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 102
+      id: answer
+      position:
+        x: 1091.392177777778
+        y: 529.53408
+      positionAbsolute:
+        x: 1091.392177777778
+        y: 529.53408
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import json\n\ndef main(orchestrator_output: str) -> dict:\n    cleaned\
+          \ = orchestrator_output.strip()\n    if cleaned.startswith(\"```\"):\n \
+          \       cleaned = cleaned.strip(\"`\")\n        if cleaned.lower().startswith(\"\
+          json\"):\n            cleaned = cleaned[4:]\n        cleaned = cleaned.strip()\n\
+          \    try:\n        data = json.loads(cleaned)\n        search_query = data.get(\"\
+          search_query\", \"\")\n        research_focus = data.get(\"research_focus\"\
+          , \"\")\n        subtopics = data.get(\"subtopics\", [])\n    except Exception:\n\
+          \        search_query = cleaned\n        research_focus = \"\"\n       \
+          \ subtopics = []\n    if isinstance(subtopics, list):\n        subtopics_str\
+          \ = \", \".join(str(s) for s in subtopics)\n    else:\n        subtopics_str\
+          \ = str(subtopics)\n    return {\n        \"search_query\": search_query,\n\
+          \        \"research_focus\": research_focus,\n        \"subtopics\": subtopics_str,\n\
+          \    }"
+        code_language: python3
+        outputs:
+          research_focus:
+            children: null
+            type: string
+          search_query:
+            children: null
+            type: string
+          subtopics:
+            children: null
+            type: string
+        selected: false
+        title: orchestrator_output
+        type: code
+        variables:
+        - value_selector:
+          - llm
+          - text
+          value_type: string
+          variable: orchestrator_output
+      height: 52
+      id: '1781029203358'
+      position:
+        x: -362.7066879999997
+        y: 10.61184
+      positionAbsolute:
+        x: -362.7066879999997
+        y: 10.61184
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: e154d81b-7c87-4d2f-8426-1ca573bdbfd0
+          role: system
+          text: 'You are the Reader/Analyzer agent in ScholarMind.
+
+
+            You receive a JSON list of academic papers (each with title, authors,
+            summary, arxiv_id). For EACH paper, extract its key information.
+
+
+            Output a clear, structured analysis. For each paper, write a block like:
+
+
+            [Paper N]
+
+            Title: <title>
+
+            arXiv ID: <arxiv_id>
+
+            Key claim: <the main contribution in one sentence>
+
+            Method: <the approach used, briefly>
+
+            Finding: <the main result or finding>
+
+
+            Rules:
+
+            - Base everything ONLY on the provided paper data. Do not invent details.
+
+            - Be concise and factual.
+
+            - Keep the arXiv ID exactly as given (needed for citations later).
+
+
+            Papers data: {{#1781154503808.papers_text#}}'
+        selected: false
+        title: 3. Reader
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1781029989717'
+      position:
+        x: 227.6280320000003
+        y: 129.293184
+      positionAbsolute:
+        x: 227.6280320000003
+        y: 129.293184
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: fefeda02-4cfe-4be5-b481-d55fb022378c
+          role: system
+          text: 'You are the Synthesis agent in ScholarMind.
+
+
+            You receive structured analyses of several academic papers. Your job is
+            to synthesize them into themes.
+
+
+            Output:
+
+            1. THEMES: Group the papers into 2-4 thematic clusters. For each theme,
+            name it and list which papers belong to it.
+
+            2. AGREEMENTS: Points where multiple papers agree.
+
+            3. CONTRADICTIONS OR TENSIONS: Any conflicting findings or differing approaches.
+            If none, say "No major contradictions found."
+
+            4. GAPS: What is missing or underexplored across these papers.
+
+
+            Rules:
+
+            - Base everything ONLY on the provided analyses.
+
+            - Reference papers by their arXiv ID when relevant.
+
+            - Be analytical, not just descriptive.
+
+
+            Paper analyses: {{#1781029989717.text#}}'
+        selected: false
+        title: 4. Synthesis
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1781030803670'
+      position:
+        x: 521.6560640000002
+        y: 239.27692799999983
+      positionAbsolute:
+        x: 521.6560640000002
+        y: 239.27692799999983
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - role: system
+          text: 'You are the Writer & Citation agent in ScholarMind, the final agent.
+
+
+            You receive a thematic synthesis of academic papers. Write a polished
+            mini literature review.
+
+
+            Structure:
+
+            ## Introduction
+
+            Briefly introduce the research topic and why it matters (2-3 sentences).
+
+
+            ## Thematic Review
+
+            Discuss each theme in a paragraph. Integrate findings and cite papers
+            inline using their arXiv ID, like [arXiv:1234.56789].
+
+
+            ## Agreements and Contradictions
+
+            Summarize where the literature agrees and where it diverges.
+
+
+            ## Research Gaps and Future Directions
+
+            Identify open problems.
+
+
+            ## References
+
+            List each cited paper as: [arXiv:ID] — Title.
+
+
+            Rules:
+
+            - Cite ONLY papers present in the synthesis. Never invent citations.
+
+            - Write in clear academic English.
+
+            - Use proper markdown headings.
+
+
+            Synthesis to write from: {{#1781030803670.text#}}'
+        selected: false
+        title: 5. Writer
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1781030899492'
+      position:
+        x: 775.8709760000002
+        y: 379.61817600000006
+      positionAbsolute:
+        x: 775.8709760000002
+        y: 379.61817600000006
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import urllib.request\nimport urllib.parse\nimport xml.etree.ElementTree\
+          \ as ET\nimport ssl\n\ndef main(search_query: str) -> dict:\n    ctx = ssl.create_default_context()\n\
+          \    ctx.check_hostname = False\n    ctx.verify_mode = ssl.CERT_NONE\n\n\
+          \    base = \"https://export.arxiv.org/api/query?\"\n    params = {\n  \
+          \      \"search_query\": \"all:\" + search_query,\n        \"start\": 0,\n\
+          \        \"max_results\": 8,\n        \"sortBy\": \"relevance\",\n     \
+          \   \"sortOrder\": \"descending\",\n    }\n    url = base + urllib.parse.urlencode(params)\n\
+          \n    req = urllib.request.Request(url, headers={\"User-Agent\": \"ScholarMind/1.0\"\
+          })\n    with urllib.request.urlopen(req, timeout=25, context=ctx) as resp:\n\
+          \        raw = resp.read().decode(\"utf-8\")\n\n    ns = {\"a\": \"http://www.w3.org/2005/Atom\"\
+          }\n    root = ET.fromstring(raw)\n    entries = root.findall(\"a:entry\"\
+          , ns)\n\n    papers = []\n    for e in entries:\n        title = e.find(\"\
+          a:title\", ns)\n        summary = e.find(\"a:summary\", ns)\n        published\
+          \ = e.find(\"a:published\", ns)\n        idl = e.find(\"a:id\", ns)\n  \
+          \      authors = [a.find(\"a:name\", ns).text for a in e.findall(\"a:author\"\
+          , ns) if a.find(\"a:name\", ns) is not None]\n\n        arxiv_id = \"\"\n\
+          \        if idl is not None and idl.text:\n            arxiv_id = idl.text.strip().split(\"\
+          /abs/\")[-1]\n\n        papers.append({\n            \"title\": (title.text\
+          \ or \"\").strip() if title is not None else \"\",\n            \"authors\"\
+          : \", \".join(authors),\n            \"summary\": (summary.text or \"\"\
+          ).strip() if summary is not None else \"\",\n            \"published\":\
+          \ (published.text or \"\").strip() if published is not None else \"\",\n\
+          \            \"arxiv_id\": arxiv_id,\n        })\n\n    lines = []\n   \
+          \ for i, p in enumerate(papers, 1):\n        lines.append(\n           \
+          \ \"[Paper \" + str(i) + \"]\\n\"\n            \"Title: \" + p[\"title\"\
+          ] + \"\\n\"\n            \"Authors: \" + p[\"authors\"] + \"\\n\"\n    \
+          \        \"arXiv ID: \" + p[\"arxiv_id\"] + \"\\n\"\n            \"Published:\
+          \ \" + p[\"published\"] + \"\\n\"\n            \"Abstract: \" + p[\"summary\"\
+          ] + \"\\n\"\n        )\n    papers_text = \"\\n\".join(lines) if lines else\
+          \ \"No papers found.\"\n\n    return {\"papers_text\": papers_text, \"count\"\
+          : len(papers)}"
+        code_language: python3
+        outputs:
+          count:
+            children: null
+            type: number
+          papers_text:
+            children: null
+            type: string
+        selected: false
+        title: 2. Search
+        type: code
+        variables:
+        - value_selector:
+          - '1781029203358'
+          - search_query
+          value_type: string
+          variable: search_query
+      height: 52
+      id: '1781154503808'
+      position:
+        x: -81.81909333333314
+        y: 84.4209208888889
+      positionAbsolute:
+        x: -81.81909333333314
+        y: 84.4209208888889
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 401.53881599999994
+      y: 184.0077312
+      zoom: 0.36
+  rag_pipeline_variables: []

@@ -1,4 +1,4 @@
-# ScholarMind — Multi-Agent Academic Research Assistant
+# ScholarMind | Multi-Agent Academic Research Assistant
 
 ScholarMind is a multi-agent academic research assistant built on the [Dify](https://dify.ai) platform. Given a research question, five cooperating agents plan a search strategy, retrieve real papers from arXiv, analyze them, synthesize findings across the literature, and produce a cited mini literature review.
 
